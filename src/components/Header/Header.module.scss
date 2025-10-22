@@ -1,0 +1,29 @@
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: fixed;
+  width: 100%;
+  background-color: $primary-color;
+  z-index: 2;
+
+  &__logo {
+    display: flex;
+
+    &__text {
+      margin-left: 10px;
+    }
+  }
+
+  &__cart {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &__count {
+      margin-left: 5px;
+      font-weight: 300;
+    }
+  }
+}
