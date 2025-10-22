@@ -1,0 +1,33 @@
+.ProductCard {
+  border: 0.5px solid #ccc;
+  padding: 20px;
+  margin: 0.5px;
+
+  &:hover {
+    border: 1px solid #000;
+    margin: 0;
+  }
+
+  &__image {
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    object-fit: contain;
+  }
+
+  &__brand {
+    font-size: 10px;
+    font-weight: 300;
+    color: #79736d;
+    text-transform: uppercase;
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+}
