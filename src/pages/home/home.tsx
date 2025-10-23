@@ -37,7 +37,7 @@ const HomePage = ({ searchTerm }: { searchTerm: string }) => {
   if (!products || products.length === 0) return <div>No products found.</div>;
 
   return (
-    <>
+    <section>
       <ul className={Styles.HomePage}>
         {filteredProducts.slice(0, visibleItems).map((product) => (
           <Link key={product.id} to={`/details/${product.id}`}>
@@ -51,7 +51,7 @@ const HomePage = ({ searchTerm }: { searchTerm: string }) => {
         ))}
       </ul>
       <div ref={loaderRef} style={{ height: "20px" }} />
-    </>
+    </section>
   );
 };
 
