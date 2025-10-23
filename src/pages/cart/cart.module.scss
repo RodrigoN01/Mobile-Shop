@@ -1,0 +1,105 @@
+.CartPage {
+  min-height: 100vh;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &__image {
+      img {
+        object-fit: contain;
+      }
+    }
+
+    &__info {
+      h4 {
+        margin-bottom: 4px;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 4px 0;
+        color: #666;
+      }
+    }
+
+    &__price {
+      text-align: right;
+
+      p {
+        font-size: 1.1rem;
+        margin: 0 0 8px 0;
+      }
+
+      &__quantity {
+        font-size: 0.8rem;
+        color: #999;
+        margin-left: 2px;
+      }
+    }
+
+    &__removeBtn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 0.9rem;
+
+      &:hover {
+        color: #ff4444;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+
+    h3 {
+      font-size: 1.3rem;
+
+      span {
+        color: #666;
+      }
+    }
+
+    button {
+      width: 350px;
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    &__item {
+      gap: 10px;
+    }
+
+    &__content {
+      width: 100%;
+      align-items: stretch;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
