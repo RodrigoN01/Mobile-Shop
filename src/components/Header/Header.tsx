@@ -2,10 +2,11 @@ import { useLocation, Link } from "react-router";
 import { FaMobileAlt } from "react-icons/fa";
 import { RiShoppingBag4Fill, RiShoppingBagLine } from "react-icons/ri";
 import Styles from "./Header.module.scss";
+import { useCart } from "../../context/CartContext";
 
 const Header = () => {
   const { pathname } = useLocation();
-  const cartCount = 2; // Example cart count
+  const cartCount = useCart().getCartCount();
 
   return (
     <nav className={Styles.Header}>
