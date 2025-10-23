@@ -14,13 +14,14 @@ function App() {
   return (
     <>
       <Header />
-      {pathname === "/" && (
+      {pathname === "/" ? (
         <SearchBar
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+      ) : (
+        <BackButton />
       )}
-      {pathname.includes("/details/") && <BackButton />}
       <main>
         <Routes>
           <Route path='/' element={<HomePage searchTerm={searchTerm} />} />
