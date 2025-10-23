@@ -59,3 +59,10 @@ export type ProductDetails = {
   weight: string;
   wlan: string[];
 };
+
+export interface CartItem extends ProductDetails {
+  quantity: number;
+  selectedColor: number;
+  selectedStorage: number;
+  price: string;
+}
