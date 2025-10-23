@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { useProductDetails } from "../../context/ProductDetailsContext";
+import { useCart } from "../../context/CartContext";
 import Button from "../../components/Button/Button";
 import ProductDetailsTable from "../../components/ProductDetailsTable/ProductDetailsTable";
 import clsx from "clsx";
@@ -10,8 +11,8 @@ const ProductDetailsPage = () => {
   const { product, fetchProductDetails } = useProductDetails();
   const [selectedColor, setSelectedColor] = useState<number | null>(null);
   const [selectedStorage, setSelectedStorage] = useState<number | null>(null);
-  // const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const { id } = useParams();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (id) {
@@ -22,8 +23,12 @@ const ProductDetailsPage = () => {
   if (!product) return <p>Loading...</p>;
 
   const handleAddToCart = () => {
-    // Implement add to cart functionality here
+    if (selectedColor && selectedStorage) {
+      addToCart(product, selectedColor, selectedStorage, product.price);
+    }
   };
+
+  console.log("product", product);
 
   return (
     <section className={Styles.ProductDetailsPage}>
