@@ -1,11 +1,11 @@
 .ProductCard {
+  background-color: #fff;
   border: 0.5px solid #ccc;
   padding: 20px;
-  margin: 0.5px;
 
   &:hover {
-    border: 1px solid #000;
-    margin: 0;
+    outline: 2px solid #000;
+    outline-offset: -2px;
   }
 
   &__image {
