@@ -6,6 +6,16 @@ export type Product = {
   price: string;
 };
 
+type ColorOption = {
+  code: number;
+  name: string;
+};
+
+type StorageOption = {
+  code: number;
+  name: string;
+};
+
 export type ProductDetails = {
   announced: string;
   audioJack: string;
@@ -32,8 +42,8 @@ export type ProductDetails = {
   networkTechnology: string;
   nfc: string;
   options: {
-    colors: string[];
-    storages: string[];
+    colors: ColorOption[];
+    storages: StorageOption[];
   };
   os: string;
   price: string;
