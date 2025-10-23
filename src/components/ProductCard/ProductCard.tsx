@@ -16,7 +16,14 @@ const ProductCard = ({ model, price, imgUrl, brand }: ProductCardProps) => {
       <p className={Styles.ProductCard__brand}>{brand}</p>
       <div className={Styles.ProductCard__info}>
         <p>{model}</p>
-        {price && <p>${price}</p>}
+        {price && (
+          <p>
+            {Number(price).toLocaleString("en-US", {
+              style: "currency",
+              currency: "EUR",
+            })}
+          </p>
+        )}
       </div>
     </li>
   );
