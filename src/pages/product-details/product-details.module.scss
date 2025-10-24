@@ -4,16 +4,6 @@
   justify-content: center;
   gap: 240px;
 
-  @media (max-width: $breakpoint-desktop) {
-    gap: 60px;
-  }
-
-  @media (max-width: $breakpoint-tablet) {
-    flex-direction: column;
-    align-items: center;
-    gap: 100px;
-  }
-
   &__image {
     object-fit: contain;
   }
@@ -41,6 +31,21 @@
           outline-offset: -2px;
         }
       }
+    }
+  }
+
+  @media (max-width: $breakpoint-desktop) {
+    gap: 60px;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+
+    &__image {
+      width: 250px;
+      height: 250px;
     }
   }
 }
