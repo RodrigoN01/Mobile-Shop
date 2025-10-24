@@ -16,17 +16,57 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_EXPIRY_TIME = 60 * 60 * 1000;
+
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
     const stored = localStorage.getItem("cart");
-    return stored ? JSON.parse(stored) : [];
+    const timestamp = localStorage.getItem("cartTimestamp");
+
+    if (stored && timestamp) {
+      const now = Date.now();
+      const elapsed = now - parseInt(timestamp);
+
+      if (elapsed < CART_EXPIRY_TIME) {
+        return JSON.parse(stored);
+      } else {
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartTimestamp");
+      }
+    }
+    return [];
   });
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cartTimestamp", Date.now().toString());
+    } else {
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartTimestamp");
+    }
   }, [cart]);
 
-  const addToCart = (
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const timestamp = localStorage.getItem("cartTimestamp");
+
+      if (timestamp) {
+        const now = Date.now();
+        const elapsed = now - parseInt(timestamp);
+
+        if (elapsed >= CART_EXPIRY_TIME) {
+          setCart([]);
+          localStorage.removeItem("cart");
+          localStorage.removeItem("cartTimestamp");
+        }
+      }
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const addToCart = async (
     product: ProductDetails,
     color: number,
     storage: number,
