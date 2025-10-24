@@ -32,9 +32,11 @@ const HomePage = ({ searchTerm }: { searchTerm: string }) => {
     return () => observer.disconnect();
   }, [visibleItems, products.length]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!products || products.length === 0) return <div>No products found.</div>;
+  if (loading) return <section>Loading...</section>;
+  if (error) return <section>Error: {error}</section>;
+  if (!products || products.length === 0) {
+    return <section>No products found.</section>;
+  }
 
   return (
     <section>
