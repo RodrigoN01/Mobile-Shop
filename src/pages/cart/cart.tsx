@@ -43,7 +43,14 @@ const CartPage = () => {
             className={Styles.CartPage__item}
           >
             <div className={Styles.CartPage__item__image}>
-              <img src={item.imgUrl} alt={item.brand} width={80} height={80} />
+              <Link to={`/details/${item.id}`}>
+                <img
+                  src={item.imgUrl}
+                  alt={item.brand}
+                  width={80}
+                  height={80}
+                />
+              </Link>
             </div>
             <div className={Styles.CartPage__item__info}>
               <h4>{item.brand}</h4>
