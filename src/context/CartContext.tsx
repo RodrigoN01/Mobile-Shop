@@ -1,5 +1,3 @@
-"use client";
-
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ProductDetails, CartItem } from "../types";
 
@@ -62,6 +60,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         },
       ];
     });
+
+    try {
+      await fetch("https://itx-frontend-test.onrender.com/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: product.id,
+          colorCode: color,
+          storageCode: storage,
+        }),
+      });
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
   };
 
   const removeFromCart = (id: string) => {
