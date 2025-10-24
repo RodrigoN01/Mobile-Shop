@@ -1,36 +1,39 @@
-import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
-import ProductCard from "../../components/ProductCard/ProductCard";
 import { useProducts } from "../../context/ProductContext";
+import { useInfiniteScroll } from "../../hooks";
+import ProductCard from "../../components/ProductCard/ProductCard";
 import Styles from "./home.module.scss";
+import type { Product } from "../../types";
+import { useMemo } from "react";
 
 const ITEMS_PER_PAGE = 8;
 
+const matchesSearchTerm = (product: Product, searchTerm: string): boolean => {
+  if (!searchTerm) return true;
+
+  const normalizedSearch = searchTerm.toLowerCase().trim();
+  const searchableText = `${product.model} ${product.brand}`.toLowerCase();
+
+  return searchableText.includes(normalizedSearch);
+};
+
 const HomePage = ({ searchTerm }: { searchTerm: string }) => {
   const { products, loading, error } = useProducts();
-  const [visibleItems, setVisibleItems] = useState(ITEMS_PER_PAGE);
-  const loaderRef = useRef(null);
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => matchesSearchTerm(product, searchTerm));
+  }, [products, searchTerm]);
+
+  const { visibleItems, loaderRef } = useInfiniteScroll(
+    filteredProducts.length,
+    ITEMS_PER_PAGE
   );
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const target = entries[0];
-      if (target.isIntersecting && visibleItems < products.length) {
-        setVisibleItems((prev) => prev + ITEMS_PER_PAGE);
-      }
-    });
+  const visibleProducts = useMemo(() => {
+    return filteredProducts.slice(0, visibleItems);
+  }, [filteredProducts, visibleItems]);
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [visibleItems, products.length]);
+  const hasMoreItems = visibleItems < filteredProducts.length;
 
   if (loading) return <section>Loading...</section>;
   if (error) return <section>Error: {error}</section>;
@@ -41,7 +44,7 @@ const HomePage = ({ searchTerm }: { searchTerm: string }) => {
   return (
     <section>
       <ul className={Styles.HomePage}>
-        {filteredProducts.slice(0, visibleItems).map((product) => (
+        {visibleProducts.map((product) => (
           <Link key={product.id} to={`/details/${product.id}`}>
             <ProductCard
               model={product.model}
@@ -52,7 +55,7 @@ const HomePage = ({ searchTerm }: { searchTerm: string }) => {
           </Link>
         ))}
       </ul>
-      <div ref={loaderRef} style={{ height: "20px" }} />
+      {hasMoreItems && <div ref={loaderRef} />}
     </section>
   );
 };
