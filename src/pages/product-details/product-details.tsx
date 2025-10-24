@@ -28,8 +28,6 @@ const ProductDetailsPage = () => {
     }
   };
 
-  console.log("product", product);
-
   return (
     <section className={Styles.ProductDetailsPage}>
       <img
