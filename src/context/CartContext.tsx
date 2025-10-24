@@ -9,7 +9,7 @@ type CartContextType = {
     storage: number,
     price: string
   ) => void;
-  removeFromCart: (id: string) => void;
+  removeFromCart: (id: string, color: number, storage: number) => void;
   getCartTotal: () => number;
   getCartCount: () => number;
 };
@@ -78,8 +78,27 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const removeFromCart = (id: string, color: number, storage: number) => {
+    setCart((prevCart) => {
+      const itemToRemove = prevCart.find(
+        (item) =>
+          item.id === id &&
+          item.selectedColor === color &&
+          item.selectedStorage === storage
+      );
+
+      if (!itemToRemove) return prevCart;
+
+      if (itemToRemove.quantity > 1) {
+        return prevCart.map((item) =>
+          item === itemToRemove
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        );
+      }
+
+      return prevCart.filter((item) => item !== itemToRemove);
+    });
   };
 
   const getCartTotal = () => {

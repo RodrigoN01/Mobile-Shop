@@ -8,6 +8,14 @@ const CartPage = () => {
   const { cart, getCartCount, removeFromCart, getCartTotal } = useCart();
   const cartCount = getCartCount();
 
+  const generateCartItemKey = (
+    id: string,
+    color: number,
+    storage: number
+  ): string => {
+    return `${id}-${color}-${storage}`;
+  };
+
   if (cart.length === 0) {
     return (
       <section className={Styles.CartPage}>
@@ -26,7 +34,14 @@ const CartPage = () => {
       <h2>Cart ({cartCount})</h2>
       <ul>
         {cart.map((item) => (
-          <li key={item.id} className={Styles.CartPage__item}>
+          <li
+            key={generateCartItemKey(
+              item.id,
+              item.selectedColor,
+              item.selectedStorage
+            )}
+            className={Styles.CartPage__item}
+          >
             <div className={Styles.CartPage__item__image}>
               <img src={item.imgUrl} alt={item.brand} width={80} height={80} />
             </div>
@@ -61,7 +76,13 @@ const CartPage = () => {
                 )}
               </p>
               <button
-                onClick={() => removeFromCart(item.id)}
+                onClick={() =>
+                  removeFromCart(
+                    item.id,
+                    item.selectedColor,
+                    item.selectedStorage
+                  )
+                }
                 className={Styles.CartPage__item__removeBtn}
               >
                 <FaRegTrashAlt />
