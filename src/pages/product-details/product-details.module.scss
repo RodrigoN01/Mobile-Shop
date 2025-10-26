@@ -48,4 +48,13 @@
       height: 250px;
     }
   }
+
+  @media (max-width: $breakpoint-mobile) {
+    &__options {
+      &__list {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+  }
 }
