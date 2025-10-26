@@ -8,7 +8,7 @@ import clsx from "clsx";
 import Styles from "./product-details.module.scss";
 
 const ProductDetailsPage = () => {
-  const { product, fetchProductDetails } = useProductDetails();
+  const { product, loading, error, fetchProductDetails } = useProductDetails();
   const [selectedColor, setSelectedColor] = useState<number | null>(null);
   const [selectedStorage, setSelectedStorage] = useState<number | null>(null);
   const { id } = useParams();
@@ -19,8 +19,9 @@ const ProductDetailsPage = () => {
       fetchProductDetails(id);
     }
   }, [id, fetchProductDetails]);
-
-  if (!product) return <p>Loading...</p>;
+  if (loading) return <section>Loading...</section>;
+  if (!product) return <section>Product not found</section>;
+  if (error) return <section>Error: {error}</section>;
 
   const handleAddToCart = () => {
     if (selectedColor && selectedStorage) {
