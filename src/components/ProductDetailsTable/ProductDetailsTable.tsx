@@ -1,7 +1,11 @@
 import type { ProductDetails } from "../../types";
 import Styles from "./ProductDetailsTable.module.scss";
 
-const ProductDetailsTable = ({ product }: { product: ProductDetails }) => {
+type ProductDetailsTableProps = {
+  product: ProductDetails;
+};
+
+const ProductDetailsTable = ({ product }: ProductDetailsTableProps) => {
   const {
     brand,
     model,
