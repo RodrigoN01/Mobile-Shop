@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 
-export const useInfiniteScroll = (totalItems: number, itemsPerPage: number) => {
+type UseInfiniteScrollResult = {
+  visibleItems: number;
+  loaderRef: RefObject<HTMLDivElement | null>;
+};
+
+export const useInfiniteScroll = (
+  totalItems: number,
+  itemsPerPage: number,
+): UseInfiniteScrollResult => {
   const [visibleItems, setVisibleItems] = useState(itemsPerPage);
   const loaderRef = useRef<HTMLDivElement>(null);
 
@@ -12,7 +21,7 @@ export const useInfiniteScroll = (totalItems: number, itemsPerPage: number) => {
           setVisibleItems((prev) => Math.min(prev + itemsPerPage, totalItems));
         }
       },
-      { rootMargin: "100px" } // Load before reaching bottom
+      { rootMargin: "100px" }, // Load before reaching bottom
     );
 
     if (loaderRef.current) {
