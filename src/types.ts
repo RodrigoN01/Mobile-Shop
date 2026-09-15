@@ -6,12 +6,7 @@ export type Product = {
   price: string;
 };
 
-type ColorOption = {
-  code: number;
-  name: string;
-};
-
-type StorageOption = {
+type OptionItem = {
   code: number;
   name: string;
 };
@@ -42,8 +37,8 @@ export type ProductDetails = {
   networkTechnology: string;
   nfc: string;
   options: {
-    colors: ColorOption[];
-    storages: StorageOption[];
+    colors: OptionItem[];
+    storages: OptionItem[];
   };
   os: string;
   price: string;
@@ -60,9 +55,8 @@ export type ProductDetails = {
   wlan: string[];
 };
 
-export interface CartItem extends ProductDetails {
+export type CartItem = ProductDetails & {
   quantity: number;
   selectedColor: number;
   selectedStorage: number;
-  price: string;
-}
+};
