@@ -24,7 +24,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
         if (!res.ok) throw new Error("❌ Failed to fetch products");
 
-        const data = await res.json();
+        const data = (await res.json()) as Product[];
 
         setProducts(data);
       } catch (err) {

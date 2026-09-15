@@ -29,7 +29,7 @@ export function ProductDetailsProvider({ children }: { children: ReactNode }) {
 
       if (!res.ok) throw new Error("❌ Failed to fetch product details");
 
-      const data = await res.json();
+      const data = (await res.json()) as ProductDetails;
       setProduct(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");

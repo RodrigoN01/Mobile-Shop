@@ -9,7 +9,7 @@ type CartContextType = {
     color: number,
     storage: number,
     price: string,
-  ) => void;
+  ) => Promise<void>;
   removeFromCart: (id: string, color: number, storage: number) => void;
   getCartTotal: () => number;
   getCartCount: () => number;
@@ -29,7 +29,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const elapsed = now - parseInt(timestamp);
 
       if (elapsed < CART_EXPIRY_TIME) {
-        return JSON.parse(stored);
+        return JSON.parse(stored) as CartItem[];
       } else {
         localStorage.removeItem("cart");
         localStorage.removeItem("cartTimestamp");
