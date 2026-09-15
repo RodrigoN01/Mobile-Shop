@@ -3,7 +3,7 @@ import Styles from "./Button.module.scss";
 
 type ButtonProps = {
   onClick?: () => void;
-  variant?: string;
+  variant?: "outline";
   disabled?: boolean;
   children: string;
 };
