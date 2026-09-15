@@ -24,7 +24,7 @@ const ProductDetailsPage = () => {
   if (error) return <section>Error: {error}</section>;
 
   const handleAddToCart = () => {
-    if (selectedColor && selectedStorage) {
+    if (selectedColor !== null && selectedStorage !== null) {
       addToCart(product, selectedColor, selectedStorage, product.price);
     }
   };
@@ -95,7 +95,7 @@ const ProductDetailsPage = () => {
           <Link to='/cart'>
             <Button
               onClick={handleAddToCart}
-              disabled={!selectedColor || !selectedStorage}
+              disabled={selectedColor === null || selectedStorage === null}
             >
               Add
             </Button>
