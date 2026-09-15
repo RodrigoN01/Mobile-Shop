@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import type { ProductDetails, CartItem } from "../types";
 
 type CartContextType = {
@@ -7,7 +8,7 @@ type CartContextType = {
     product: ProductDetails,
     color: number,
     storage: number,
-    price: string
+    price: string,
   ) => void;
   removeFromCart: (id: string, color: number, storage: number) => void;
   getCartTotal: () => number;
@@ -18,7 +19,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const CART_EXPIRY_TIME = 60 * 60 * 1000;
 
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
     const stored = localStorage.getItem("cart");
     const timestamp = localStorage.getItem("cartTimestamp");
@@ -70,7 +71,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     product: ProductDetails,
     color: number,
     storage: number,
-    price: string
+    price: string,
   ) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find(
@@ -78,14 +79,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           item.id === product.id &&
           item.selectedColor === color &&
           item.selectedStorage === storage &&
-          item.price === price
+          item.price === price,
       );
 
       if (existingItem) {
         return prevCart.map((item) =>
           item === existingItem
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
 
@@ -124,7 +125,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         (item) =>
           item.id === id &&
           item.selectedColor === color &&
-          item.selectedStorage === storage
+          item.selectedStorage === storage,
       );
 
       if (!itemToRemove) return prevCart;
@@ -133,7 +134,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         return prevCart.map((item) =>
           item === itemToRemove
             ? { ...item, quantity: item.quantity - 1 }
-            : item
+            : item,
         );
       }
 
@@ -144,7 +145,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const getCartTotal = () => {
     return cart.reduce(
       (total, item) => total + Number(item.price) * item.quantity,
-      0
+      0,
     );
   };
 

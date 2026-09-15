@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useCallback } from "react";
+import type { ReactNode } from "react";
 import type { ProductDetails } from "../types";
 
 type ProductDetailsContextType = {
@@ -12,11 +13,7 @@ const ProductDetailsContext = createContext<
   ProductDetailsContextType | undefined
 >(undefined);
 
-export function ProductDetailsProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function ProductDetailsProvider({ children }: { children: ReactNode }) {
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +24,7 @@ export function ProductDetailsProvider({
 
     try {
       const res = await fetch(
-        `https://itx-frontend-test.onrender.com/api/product/${id}`
+        `https://itx-frontend-test.onrender.com/api/product/${id}`,
       );
 
       if (!res.ok) throw new Error("❌ Failed to fetch product details");
@@ -54,7 +51,7 @@ export function useProductDetails(): ProductDetailsContextType {
   const context = useContext(ProductDetailsContext);
   if (context === undefined) {
     throw new Error(
-      "useProductDetails must be used within a ProductDetailsProvider"
+      "useProductDetails must be used within a ProductDetailsProvider",
     );
   }
   return context;

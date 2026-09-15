@@ -1,8 +1,9 @@
+import type { ChangeEvent } from "react";
 import Styles from "./SearchBar.module.scss";
 
 type SearchBarProps = {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const SearchBar = ({ value, onChange }: SearchBarProps) => {

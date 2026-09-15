@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
+import type { ReactNode } from "react";
 import type { Product } from "../types";
 
 type ProductContextType = {
@@ -9,7 +10,7 @@ type ProductContextType = {
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-export function ProductProvider({ children }: { children: React.ReactNode }) {
+export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          "https://itx-frontend-test.onrender.com/api/product"
+          "https://itx-frontend-test.onrender.com/api/product",
         );
 
         if (!res.ok) throw new Error("❌ Failed to fetch products");
