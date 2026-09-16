@@ -1,17 +1,33 @@
 .BackButton {
   position: fixed;
-  top: 60px;
-  width: 100%;
-  padding: 10px 40px;
-  background: #fff;
+  top: calc($header-height + 20px);
+  left: 40px;
   z-index: 2;
 
   &__inner {
     display: flex;
     align-items: center;
-    gap: 5px;
-    max-width: 70px;
-    font-size: 12px;
-    text-transform: uppercase;
+    gap: 6px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    background-color: $color-surface;
+    border: 1px solid $color-line;
+    color: $color-ink;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+      border-color $transition-base,
+      color $transition-base;
+
+    &:hover {
+      border-color: $color-ink;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .BackButton {
+    left: 20px;
+    top: calc($header-height + 12px);
   }
 }
