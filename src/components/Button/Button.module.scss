@@ -1,21 +1,38 @@
 .Button {
   outline: none;
-  border: none;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
   cursor: pointer;
-  color: #fff;
-  background-color: #000;
-  padding: 18px 0;
-  text-transform: uppercase;
+  color: $color-ink-ink;
+  background-color: $color-ink;
+  padding: 16px 0;
+  font-family: $font-sans;
+  font-size: 14px;
+  font-weight: 600;
   width: 100%;
+  transition:
+    background-color $transition-base,
+    border-color $transition-base,
+    color $transition-base;
+
+  &:hover:not(:disabled) {
+    background-color: $color-ink-hover;
+  }
 
   &--outline {
-    color: #000;
-    background-color: #fff;
-    border: 0.5px solid #000;
+    color: $color-ink;
+    background-color: transparent;
+    border-color: $color-line;
+
+    &:hover:not(:disabled) {
+      background-color: $color-bg;
+      border-color: $color-ink;
+    }
   }
 
   &--disabled {
-    background-color: #f3f2f2;
-    color: #c2bfbc;
+    background-color: $color-bg;
+    color: $color-muted;
+    border-color: $color-line;
   }
 }

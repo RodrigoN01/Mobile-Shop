@@ -1,11 +1,17 @@
 .ProductCard {
-  background-color: #fff;
-  border: 0.5px solid #ccc;
+  background-color: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-md;
   padding: 20px;
+  transition:
+    transform $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base;
 
   &:hover {
-    outline: 2px solid #000;
-    outline-offset: -2px;
+    transform: translateY(-4px);
+    border-color: $color-ink;
+    box-shadow: 0 12px 24px rgba(20, 22, 26, 0.08);
   }
 
   &__image {
@@ -16,18 +22,21 @@
   }
 
   &__brand {
-    font-size: 10px;
-    font-weight: 300;
-    color: #79736d;
-    text-transform: uppercase;
+    font-family: $font-mono;
+    font-size: 11px;
+    color: $color-muted;
   }
 
   &__info {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
-    font-size: 12px;
-    font-weight: 300;
-    text-transform: uppercase;
+    align-items: baseline;
+    margin-top: 6px;
+    font-size: 14px;
+
+    p:last-child {
+      font-family: $font-mono;
+      font-weight: 500;
+    }
   }
 }
