@@ -44,6 +44,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useProducts(): ProductContextType {
   const context = useContext(ProductContext);
   if (context === undefined) {
