@@ -6,7 +6,10 @@
 
 html,
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  color: #14161a;
+  -webkit-font-smoothing: antialiased;
 }
 
 main {
@@ -14,16 +17,31 @@ main {
 }
 
 section {
-  padding: 180px 40px;
+  padding: 160px 40px 60px;
   max-width: 1600px;
   margin: 0 auto;
 }
 
 a {
   text-decoration: none;
-  color: #000;
+  color: inherit;
 }
 
 ul {
   list-style: none;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid #14161a;
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 144px 20px 40px;
+  }
 }

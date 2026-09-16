@@ -1,7 +1,25 @@
-// Variables for colors
-$primary-color: #fff;
+// Colors
+$color-bg: #f3f4f6; // subtle neutral tint — button hover/disabled fills
+$color-surface: #fff; // page canvas, header, cards, table, inputs
+$color-ink: #14161a; // primary text, primary actions, selection
+$color-ink-hover: #2f333b; // ink, pressed/hover state
+$color-ink-ink: #fff; // text/icons on top of solid ink
+$color-muted: #6b7280; // secondary text
+$color-line: #e3e5e9; // hairline borders
+$color-selected-wash: rgba(20, 22, 26, 0.06); // tinted background for selected state
+$color-danger: #e5484d; // destructive actions (remove from cart)
 
-// Variables for breakpoints
+// Typography
+$font-sans: "Manrope", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+// Layout
+$header-height: 64px;
+$radius-sm: 8px;
+$radius-md: 14px;
+$transition-base: 160ms ease;
+
+// Breakpoints
 $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
