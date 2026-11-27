@@ -74,4 +74,9 @@ describe("App", () => {
       expect(screen.getByText("No products found.")).toBeInTheDocument();
     });
   });
+
+  it("renders a not-found page for unknown routes", async () => {
+    renderApp(["/does-not-exist"]);
+    expect(await screen.findByText("Page not found")).toBeInTheDocument();
+  });
 });
