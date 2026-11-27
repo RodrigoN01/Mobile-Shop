@@ -10,7 +10,10 @@ const SearchBar = ({ value, onChange }: SearchBarProps) => {
   return (
     <div className={Styles.SearchBar}>
       <input
-        type='text'
+        type='search'
+        aria-label='Search for smartphones'
+        maxLength={100}
+        autoComplete='off'
         placeholder='Search for smartphones...'
         value={value}
         onChange={onChange}

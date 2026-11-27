@@ -17,7 +17,11 @@ const Header = () => {
         </div>
       </Link>
       {pathname !== "/cart" && (
-        <Link to='/cart' className={Styles.Header__cart}>
+        <Link
+          to='/cart'
+          className={Styles.Header__cart}
+          aria-label={`Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}`}
+        >
           {cartCount > 0 ? (
             <RiShoppingBag4Fill size={20} />
           ) : (
