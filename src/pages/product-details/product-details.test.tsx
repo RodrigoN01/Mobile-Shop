@@ -70,7 +70,9 @@ describe("ProductDetailsPage", () => {
     renderProductDetailsPage();
 
     await waitFor(() => {
-      expect(screen.getByText("Product not found")).toBeInTheDocument();
+      expect(
+        screen.getByText("Error: ❌ Failed to fetch product details")
+      ).toBeInTheDocument();
     });
   });
 
@@ -137,5 +139,46 @@ describe("ProductDetailsPage", () => {
         expect.objectContaining({ method: "POST" })
       );
     });
+  });
+
+  it("lets a product without a price be added once both options are picked", async () => {
+    const user = userEvent.setup();
+    vi.mocked(globalThis.fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ ...mockProductDetails, price: "" }),
+    } as Response);
+
+    renderProductDetailsPage();
+
+    await waitFor(() => {
+      expect(screen.getByText("Price unavailable")).toBeInTheDocument();
+    });
+    const addButton = screen.getByRole("button", { name: "Add" });
+    expect(addButton).toBeDisabled();
+    await user.click(screen.getByRole("button", { name: "128GB" }));
+    expect(addButton).toBeDisabled();
+    await user.click(screen.getByRole("button", { name: "Black" }));
+    expect(addButton).toBeEnabled();
+  });
+
+  it("navigates to the cart after adding", async () => {
+    const user = userEvent.setup();
+    vi.mocked(globalThis.fetch)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockProductDetails,
+      } as Response)
+      .mockResolvedValueOnce({ ok: true } as Response);
+
+    renderProductDetailsPage();
+
+    await waitFor(() => {
+      expect(screen.getByText("128GB")).toBeInTheDocument();
+    });
+    await user.click(screen.getByRole("button", { name: "128GB" }));
+    await user.click(screen.getByRole("button", { name: "Black" }));
+    await user.click(screen.getByRole("button", { name: "Add" }));
+
+    expect(await screen.findByText("Cart")).toBeInTheDocument();
   });
 });
