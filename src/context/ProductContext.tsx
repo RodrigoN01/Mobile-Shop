@@ -1,6 +1,7 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Product } from "../types";
+import { fetchProducts } from "../api";
 
 type ProductContextType = {
   products: Product[];
@@ -16,37 +17,31 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(
-          "https://itx-frontend-test.onrender.com/api/product",
-        );
+    const controller = new AbortController();
 
-        if (!res.ok) throw new Error("❌ Failed to fetch products");
-
-        const data = (await res.json()) as Product[];
-
-        setProducts(data);
-      } catch (err) {
+    fetchProducts(controller.signal)
+      .then(setProducts)
+      .catch((err: unknown) => {
+        if (controller.signal.aborted) return;
         setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
 
-    fetchProducts();
+    return () => controller.abort();
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products, loading, error }}>
+    <ProductContext value={{ products, loading, error }}>
       {children}
-    </ProductContext.Provider>
+    </ProductContext>
   );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useProducts(): ProductContextType {
-  const context = useContext(ProductContext);
+  const context = use(ProductContext);
   if (context === undefined) {
     throw new Error("useProducts must be used within a ProductProvider");
   }

@@ -98,7 +98,7 @@ describe("CartContext", () => {
     });
 
     expect(result.current.cart).toHaveLength(1);
-    expect(result.current.cart[0].quantity).toBe(2);
+    expect(result.current.cart[0]?.quantity).toBe(2);
   });
 
   it("treats different color/storage combinations as separate items", async () => {
@@ -152,7 +152,7 @@ describe("CartContext", () => {
       result.current.removeFromCart("1", 1, 128);
     });
 
-    expect(result.current.cart[0].quantity).toBe(1);
+    expect(result.current.cart[0]?.quantity).toBe(1);
   });
 
   it("removes the item entirely when quantity reaches zero", async () => {
@@ -227,6 +227,61 @@ describe("CartContext", () => {
 
     expect(result.current.cart).toHaveLength(0);
     expect(localStorage.getItem("cart")).toBeNull();
+  });
+
+  it("recovers from malformed JSON in localStorage instead of crashing", () => {
+    localStorage.setItem("cart", "{not json");
+    localStorage.setItem("cartTimestamp", Date.now().toString());
+
+    const { result } = renderHook(() => useCart(), { wrapper });
+
+    expect(result.current.cart).toHaveLength(0);
+    expect(localStorage.getItem("cart")).toBeNull();
+  });
+
+  it("drops tampered or malformed items from localStorage", () => {
+    const valid = { ...mockProduct, quantity: 1, selectedColor: 1, selectedStorage: 128 };
+    localStorage.setItem(
+      "cart",
+      JSON.stringify([
+        valid,
+        { ...valid, id: "2", quantity: -5 },
+        { ...valid, id: "3", quantity: "lots" },
+        { id: "4" },
+        null,
+      ])
+    );
+    localStorage.setItem("cartTimestamp", Date.now().toString());
+
+    const { result } = renderHook(() => useCart(), { wrapper });
+
+    expect(result.current.cart).toHaveLength(1);
+    expect(result.current.cart[0]?.id).toBe("1");
+  });
+
+  it("adds items without a price, counting them as 0 in the total", async () => {
+    const { result } = renderHook(() => useCart(), { wrapper });
+
+    await act(async () => {
+      await result.current.addToCart({ ...mockProduct, price: "" }, 1, 128, "");
+    });
+
+    expect(result.current.cart).toHaveLength(1);
+    expect(result.current.getCartTotal()).toBe(0);
+    expect(globalThis.fetch).toHaveBeenCalled();
+  });
+
+  it("syncs the cart when another tab changes it", () => {
+    const { result } = renderHook(() => useCart(), { wrapper });
+    const storedItem = { ...mockProduct, quantity: 2, selectedColor: 1, selectedStorage: 128 };
+
+    act(() => {
+      localStorage.setItem("cart", JSON.stringify([storedItem]));
+      localStorage.setItem("cartTimestamp", Date.now().toString());
+      window.dispatchEvent(new StorageEvent("storage", { key: "cart" }));
+    });
+
+    expect(result.current.getCartCount()).toBe(2);
   });
 
   it("throws when used outside of a CartProvider", () => {
