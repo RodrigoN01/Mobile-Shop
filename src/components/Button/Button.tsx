@@ -11,11 +11,13 @@ type ButtonProps = {
 const Button = ({ onClick, variant, disabled, children }: ButtonProps) => {
   return (
     <button
+      type='button'
       onClick={onClick}
-      className={clsx(Styles.Button, {
-        [Styles["Button--outline"]]: variant === "outline",
-        [Styles["Button--disabled"]]: disabled,
-      })}
+      className={clsx(
+        Styles.Button,
+        variant === "outline" && Styles["Button--outline"],
+        disabled && Styles["Button--disabled"],
+      )}
       disabled={disabled}
     >
       {children}
